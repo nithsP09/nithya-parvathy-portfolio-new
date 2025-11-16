@@ -14,3 +14,7 @@ yarn-error.log*
 
 # Environment variables
 .env
+
+# BFG jar file
+bfg-*.jar
+
