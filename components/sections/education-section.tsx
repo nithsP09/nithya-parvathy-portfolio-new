@@ -6,7 +6,7 @@ export function EducationSection() {
   const education = [
     {
       degree: "B.Tech (AEI - Applied Electronics and Instrumentation)",
-      institution: "Rajagiri School of Engineering and Technology Autonomous",
+      institution: "RSET - Autonomous",
       location: "Kochi",
       period: "2018 - 2022",
       gpa: "",
