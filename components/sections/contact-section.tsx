@@ -31,18 +31,27 @@ export function ContactSection() {
     const formData = new FormData(form)
     const data = Object.fromEntries(formData.entries())
 
+    // Ensure subject has a value - convert to string first
+    const subjectValue = data.subject && typeof data.subject === 'string' && data.subject.trim() !== "" 
+      ? data.subject.trim() 
+      : "New message from portfolio contact form"
+
+    const payload = {
+      access_key: "f276ddc8-d1cc-4b24-addd-fd36ef3c8e3f",
+      name: data.name as string,
+      email: data.email as string,
+      subject: subjectValue,
+      message: data.message as string,
+    }
+
+    console.log("Sending payload:", payload) // Debug log
+
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          access_key: "f276ddc8-d1cc-4b24-addd-fd36ef3c8e3f",
-          name: data.name,
-          email: data.email,
-          subject: data.subject || "New message from portfolio contact form",
-          message: `Subject: ${data.subject || "(No subject)"}\n\nMessage:\n${data.message}`,
-        }),
-      })
+        body: JSON.stringify(payload),
+      });
 
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
 
@@ -169,7 +178,7 @@ export function ContactSection() {
             <h3 className={`text-lg font-semibold mb-4 ${popupMessage.type === "success" ? "text-green-600" : "text-red-600"}`}>
               {popupMessage.type === "success" ? "Success!" : "Error!"}
             </h3>
-            <p className="mb-6 text-black">{popupMessage.text}</p> {/* <-- set text-black here */}
+            <p className="mb-6 text-black">{popupMessage.text}</p>
             <Button onClick={() => setPopupMessage(null)}>OK</Button>
           </div>
         </div>
