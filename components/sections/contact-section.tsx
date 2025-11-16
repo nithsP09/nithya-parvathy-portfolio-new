@@ -39,8 +39,8 @@ export function ContactSection() {
           access_key: "f276ddc8-d1cc-4b24-addd-fd36ef3c8e3f",
           name: data.name,
           email: data.email,
-          subject: data.subject,
-          message: data.message,
+          subject: data.subject || "New message from portfolio contact form",
+          message: `Subject: ${data.subject || "(No subject)"}\n\nMessage:\n${data.message}`,
         }),
       })
 
