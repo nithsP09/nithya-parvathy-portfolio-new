@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Mail, Phone, MapPin } from "lucide-react"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
+import { useState } from "react"
 
 export function ContactSection() {
   const contactInfo = [
@@ -31,6 +32,51 @@ export function ContactSection() {
     { icon: FaLinkedin, href: "https://www.linkedin.com/in/nithya-parvathy-8887b8201/", label: "LinkedIn" },
     { icon: FaGithub, href: "https://github.com/nithsP09", label: "GitHub" },
   ]
+
+  // Form states
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState("")
+
+  // Form submit handler
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    setError("")
+    setSuccess(false)
+
+    const formData = new FormData(e.currentTarget)
+    const data = Object.fromEntries(formData.entries())
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "f276ddc8-d1cc-4b24-addd-fd36ef3c8e3f", // your Web3Forms access key
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+        }),
+      })
+
+      const result = await response.json()
+      if (result.success) {
+        setSuccess(true)
+        e.currentTarget.reset()
+      } else {
+        setError("Something went wrong. Please try again.")
+      }
+    } catch (err) {
+      console.error(err)
+      setError("An error occurred. Please try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-8">
@@ -101,39 +147,39 @@ export function ContactSection() {
               <CardTitle className="text-2xl text-primary">Send Message</CardTitle>
             </CardHeader>
             <CardContent>
-              <form className="space-y-6 -mt-3">
+              <form className="space-y-6 -mt-3" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Name</label>
-                    <Input placeholder="Your name" className="bg-input border-border" />
+                    <Input name="name" placeholder="Your name" className="bg-input border-border" />
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Email</label>
-                    <Input type="email" placeholder="your.email@example.com" className="bg-input border-border" />
+                    <Input name="email" type="email" placeholder="your.email@example.com" className="bg-input border-border" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Subject</label>
-                  <Input placeholder="Message subject" className="bg-input border-border" />
+                  <Input name="subject" placeholder="Message subject" className="bg-input border-border" />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Message</label>
-                  <Textarea
-                    placeholder="Your message here..."
-                    rows={6}
-                    className="bg-input border-border resize-none"
-                  />
+                  <Textarea name="message" placeholder="Your message here..." rows={6} className="bg-input border-border resize-none" />
                 </div>
 
                 <Button
                   type="submit"
                   className="mt-2 w-full bg-primary text-primary-foreground hover:bg-primary/90 py-5 text-xl"
+                  disabled={loading}
                 >
-                  Send Message
+                  {loading ? "Sending..." : "Send Message"}
                 </Button>
+
+                {success && <p className="text-green-600 mt-2">Message sent successfully!</p>}
+                {error && <p className="text-red-600 mt-2">{error}</p>}
               </form>
             </CardContent>
           </Card>
