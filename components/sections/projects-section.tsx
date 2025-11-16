@@ -6,6 +6,15 @@ import { ExternalLink } from "lucide-react"
 export function ProjectsSection() {
   const projects = [
     {
+      title: "Modern Portfolio Website",
+      description:
+        'A multi-page portfolio showcasing 5 pages: Home, About Me, Resume, Projects, and Contact. Includes a tooltip that shows a welcoming message on hover: "Bonjour is how you say "Hello" 👋 in French".',
+      image: "/nithulakshmi_softwaretester.png",
+      technologies: ["HTML", "CSS", "Web3Forms API", "Jest", "React Testing Library", "Responsive Web Design", "Cross-Browser Testing"],
+      liveUrl: "https://nithulakshmisoftwaretester.on.drv.tw/www.NithuPortfolio.com/",
+      hasLinks: true,
+    },
+    {
       title: "E-Commerce Platform",
       description:
         "A modern e-commerce platform currently in development. Features include interactive product catalog with variants, shopping cart, search & filtering, responsive design, and planned integration with Firebase Authentication and APIs.",
@@ -50,15 +59,6 @@ export function ProjectsSection() {
       image: "/podiatry-residency-resource.png",
       technologies: ["React", "Next.js", "Tailwind CSS", "TypeScript", "Rest API", "PWA", "Responsive Web Design"],
       hasLinks: false,
-    },
-    {
-      title: "Modern Portfolio Website",
-      description:
-        'A multi-page portfolio showcasing 5 pages: Home, About Me, Resume, Projects, and Contact. Includes a tooltip that shows a welcoming message on hover: "Bonjour is how you say "Hello" 👋 in French".',
-      image: "/nithulakshmi_softwaretester.png",
-      technologies: ["HTML", "CSS", "Web3Forms API", "Jest", "React Testing Library", "Responsive Web Design", "Cross-Browser Testing"],
-      liveUrl: "https://nithulakshmisoftwaretester.on.drv.tw/www.NithuPortfolio.com/",
-      hasLinks: true,
     },
     {
       title: "My Old Portfolio Website",
