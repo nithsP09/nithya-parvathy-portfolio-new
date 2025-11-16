@@ -29,29 +29,43 @@ export function ContactSection() {
 
     const form = e.currentTarget
     const formData = new FormData(form)
-    const data = Object.fromEntries(formData.entries())
+    const data = Object.fromEntries(formData.entries()) as Record<string, string>
 
-    // Ensure subject has a value - convert to string first
-    const subjectValue = data.subject && typeof data.subject === 'string' && data.subject.trim() !== "" 
-      ? data.subject.trim() 
-      : "New message from portfolio contact form"
+    // Field-specific validation
+    if (!data.name?.trim()) {
+      setPopupMessage({ type: "error", text: "Name field is not filled out" })
+      setLoading(false)
+      return
+    }
+    if (!data.email?.trim()) {
+      setPopupMessage({ type: "error", text: "Email field is not filled out" })
+      setLoading(false)
+      return
+    }
+    if (!data.message?.trim()) {
+      setPopupMessage({ type: "error", text: "Message field is not filled out" })
+      setLoading(false)
+      return
+    }
+
+    const subjectValue = data.subject?.trim() || "New message from portfolio contact form"
 
     const payload = {
       access_key: "f276ddc8-d1cc-4b24-addd-fd36ef3c8e3f",
-      name: data.name as string,
-      email: data.email as string,
+      name: data.name,
+      email: data.email,
       subject: subjectValue,
-      message: data.message as string,
+      message: data.message,
     }
 
-    console.log("Sending payload:", payload) // Debug log
+    console.log("Sending payload:", payload)
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-      });
+      })
 
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
 
@@ -144,11 +158,11 @@ export function ContactSection() {
                 <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Name</label>
-                    <Input name="name" placeholder="Your name" required className="bg-input border-border" />
+                    <Input name="name" placeholder="Your name" className="bg-input border-border" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Email</label>
-                    <Input name="email" type="email" placeholder="your.email@example.com" required className="bg-input border-border" />
+                    <Input name="email" type="email" placeholder="your.email@example.com" className="bg-input border-border" />
                   </div>
                 </div>
 
@@ -159,7 +173,7 @@ export function ContactSection() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Message</label>
-                  <Textarea name="message" placeholder="Your message here..." rows={6} required className="bg-input border-border resize-none" />
+                  <Textarea name="message" placeholder="Your message here..." rows={6} className="bg-input border-border resize-none" />
                 </div>
 
                 <Button type="submit" className="mt-2 w-full bg-primary text-primary-foreground hover:bg-primary/90 py-5 text-xl" disabled={loading}>
@@ -176,7 +190,7 @@ export function ContactSection() {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
             <h3 className={`text-lg font-semibold mb-4 ${popupMessage.type === "success" ? "text-green-600" : "text-red-600"}`}>
-              {popupMessage.type === "success" ? "Success!" : "Error!"}
+              {popupMessage.type === "success" ? "Success!" : "You Missed Something!"}
             </h3>
             <p className="mb-6 text-black">{popupMessage.text}</p>
             <Button onClick={() => setPopupMessage(null)}>OK</Button>
