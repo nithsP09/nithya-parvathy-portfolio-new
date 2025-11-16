@@ -10,24 +10,9 @@ import { FaGithub, FaLinkedin } from "react-icons/fa"
 
 export function ContactSection() {
   const contactInfo = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "nithyaparvathy9@gmail.com",
-      href: "mailto:nithyaparvathy9@gmail.com",
-    },
-    {
-      icon: Phone,
-      label: "Phone",
-      value: "+91 6282122482",
-      href: "tel:+91 6282122482",
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Srayicheril, Poozhikkadu, Kudassanad P O, Kurampala, Pathanamthitta, Kerala - 689501",
-      href: "#",
-    },
+    { icon: Mail, label: "Email", value: "nithyaparvathy9@gmail.com", href: "mailto:nithyaparvathy9@gmail.com" },
+    { icon: Phone, label: "Phone", value: "+91 6282122482", href: "tel:+91 6282122482" },
+    { icon: MapPin, label: "Location", value: "Srayicheril, Poozhikkadu, Kudassanad P O, Kurampala, Pathanamthitta, Kerala - 689501", href: "#" },
   ]
 
   const socialLinks = [
@@ -36,16 +21,14 @@ export function ContactSection() {
   ]
 
   const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState("")
+  const [popupMessage, setPopupMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
-    setError("")
-    setSuccess(false)
 
-    const formData = new FormData(e.currentTarget)
+    const form = e.currentTarget
+    const formData = new FormData(form)
     const data = Object.fromEntries(formData.entries())
 
     try {
@@ -53,7 +36,7 @@ export function ContactSection() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: "f276ddc8-d1cc-4b24-addd-fd36ef3c8e3f", // your Web3Forms key
+          access_key: "f276ddc8-d1cc-4b24-addd-fd36ef3c8e3f",
           name: data.name,
           email: data.email,
           subject: data.subject,
@@ -61,23 +44,26 @@ export function ContactSection() {
         }),
       })
 
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+
       const result = await response.json()
+
       if (result.success) {
-        setSuccess(true)
-        e.currentTarget.reset()
+        form.reset()
+        setPopupMessage({ type: "success", text: "Message sent successfully!" })
       } else {
-        setError("Failed to send message. Please try again.")
+        setPopupMessage({ type: "error", text: result.message || "Failed to send message. Please try again." })
       }
     } catch (err) {
-      console.error(err)
-      setError("Error sending message. Check console.")
+      console.error("Form submission error:", err)
+      setPopupMessage({ type: "error", text: "Network error. Please check your connection and try again." })
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8">
+    <div className="min-h-screen flex items-center justify-center p-8 relative">
       <div className="max-w-6xl w-full space-y-12">
         <div className="text-center space-y-4">
           <h2 className="text-4xl md:text-5xl font-bold text-primary">Contact Me</h2>
@@ -85,9 +71,9 @@ export function ContactSection() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
+          {/* Contact Info */}
           <div className="space-y-8">
-            <Card className="hover:border-primary/50 transition-all duration-300">
+            <Card className="hover:border-primary/90 transition-all duration-300">
               <CardHeader>
                 <CardTitle className="text-2xl text-primary">Get In Touch</CardTitle>
               </CardHeader>
@@ -101,10 +87,7 @@ export function ContactSection() {
                       </div>
                       <div>
                         <p className="font-medium text-foreground">{info.label}</p>
-                        <a
-                          href={info.href}
-                          className="text-muted-foreground hover:text-primary transition-colors"
-                        >
+                        <a href={info.href} className="text-muted-foreground hover:text-primary transition-colors">
                           {info.value}
                         </a>
                       </div>
@@ -115,7 +98,7 @@ export function ContactSection() {
             </Card>
 
             {/* Social Links */}
-            <Card className="hover:border-primary/50 transition-all duration-300">
+            <Card className="hover:border-primary/90 transition-all duration-300">
               <CardHeader>
                 <CardTitle className="text-2xl text-primary">Follow Me</CardTitle>
               </CardHeader>
@@ -143,7 +126,7 @@ export function ContactSection() {
           </div>
 
           {/* Contact Form */}
-          <Card className="hover:border-primary/50 transition-all duration-300">
+          <Card className="hover:border-primary/90 transition-all duration-300">
             <CardHeader>
               <CardTitle className="text-2xl text-primary">Send Message</CardTitle>
             </CardHeader>
@@ -154,16 +137,9 @@ export function ContactSection() {
                     <label className="text-sm font-medium text-foreground">Name</label>
                     <Input name="name" placeholder="Your name" required className="bg-input border-border" />
                   </div>
-
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Email</label>
-                    <Input
-                      name="email"
-                      type="email"
-                      placeholder="your.email@example.com"
-                      required
-                      className="bg-input border-border"
-                    />
+                    <Input name="email" type="email" placeholder="your.email@example.com" required className="bg-input border-border" />
                   </div>
                 </div>
 
@@ -174,30 +150,30 @@ export function ContactSection() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Message</label>
-                  <Textarea
-                    name="message"
-                    placeholder="Your message here..."
-                    rows={6}
-                    required
-                    className="bg-input border-border resize-none"
-                  />
+                  <Textarea name="message" placeholder="Your message here..." rows={6} required className="bg-input border-border resize-none" />
                 </div>
 
-                <Button
-                  type="submit"
-                  className="mt-2 w-full bg-primary text-primary-foreground hover:bg-primary/90 py-5 text-xl"
-                  disabled={loading}
-                >
+                <Button type="submit" className="mt-2 w-full bg-primary text-primary-foreground hover:bg-primary/90 py-5 text-xl" disabled={loading}>
                   {loading ? "Sending..." : "Send Message"}
                 </Button>
-
-                {success && <p className="text-green-600 mt-2">Message sent successfully!</p>}
-                {error && <p className="text-red-600 mt-2">{error}</p>}
               </form>
             </CardContent>
           </Card>
         </div>
       </div>
+
+      {/* Popup Modal */}
+      {popupMessage && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+            <h3 className={`text-lg font-semibold mb-4 ${popupMessage.type === "success" ? "text-green-600" : "text-red-600"}`}>
+              {popupMessage.type === "success" ? "Success!" : "Error!"}
+            </h3>
+            <p className="mb-6 text-black">{popupMessage.text}</p> {/* <-- set text-black here */}
+            <Button onClick={() => setPopupMessage(null)}>OK</Button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
