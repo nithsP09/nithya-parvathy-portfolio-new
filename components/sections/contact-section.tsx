@@ -1,10 +1,12 @@
+"use client"
+
+import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Mail, Phone, MapPin } from "lucide-react"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
-import { useState } from "react"
 
 export function ContactSection() {
   const contactInfo = [
@@ -33,12 +35,10 @@ export function ContactSection() {
     { icon: FaGithub, href: "https://github.com/nithsP09", label: "GitHub" },
   ]
 
-  // Form states
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState("")
 
-  // Form submit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
@@ -51,11 +51,9 @@ export function ContactSection() {
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: "f276ddc8-d1cc-4b24-addd-fd36ef3c8e3f", // your Web3Forms access key
+          access_key: "f276ddc8-d1cc-4b24-addd-fd36ef3c8e3f", // your Web3Forms key
           name: data.name,
           email: data.email,
           subject: data.subject,
@@ -68,11 +66,11 @@ export function ContactSection() {
         setSuccess(true)
         e.currentTarget.reset()
       } else {
-        setError("Something went wrong. Please try again.")
+        setError("Failed to send message. Please try again.")
       }
     } catch (err) {
       console.error(err)
-      setError("An error occurred. Please try again.")
+      setError("Error sending message. Check console.")
     } finally {
       setLoading(false)
     }
@@ -103,7 +101,10 @@ export function ContactSection() {
                       </div>
                       <div>
                         <p className="font-medium text-foreground">{info.label}</p>
-                        <a href={info.href} className="text-muted-foreground hover:text-primary transition-colors">
+                        <a
+                          href={info.href}
+                          className="text-muted-foreground hover:text-primary transition-colors"
+                        >
                           {info.value}
                         </a>
                       </div>
@@ -151,12 +152,18 @@ export function ContactSection() {
                 <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Name</label>
-                    <Input name="name" placeholder="Your name" className="bg-input border-border" />
+                    <Input name="name" placeholder="Your name" required className="bg-input border-border" />
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Email</label>
-                    <Input name="email" type="email" placeholder="your.email@example.com" className="bg-input border-border" />
+                    <Input
+                      name="email"
+                      type="email"
+                      placeholder="your.email@example.com"
+                      required
+                      className="bg-input border-border"
+                    />
                   </div>
                 </div>
 
@@ -167,7 +174,13 @@ export function ContactSection() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Message</label>
-                  <Textarea name="message" placeholder="Your message here..." rows={6} className="bg-input border-border resize-none" />
+                  <Textarea
+                    name="message"
+                    placeholder="Your message here..."
+                    rows={6}
+                    required
+                    className="bg-input border-border resize-none"
+                  />
                 </div>
 
                 <Button
