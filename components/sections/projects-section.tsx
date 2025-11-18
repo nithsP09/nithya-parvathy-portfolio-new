@@ -68,22 +68,6 @@ export function ProjectsSection() {
       hasLinks: true // button will still show
     },
     {
-      title: "Aurarock",
-      description:
-        "A comprehensive finance dashboard platform providing retirement planning tools, L3 proposal tracking, and contact management. Users can monitor financial metrics, manage client interactions, and generate reports efficiently through an intuitive, interactive dashboard.",
-      image: "/finance-mng-dashboard.png",
-      technologies: ["React", "TypeScript", "Prisma", "Tailwind CSS", "Chart.js", "Recharts", "Responsive Web Design"],
-      hasLinks: false,
-    },
-    {
-      title: "Podiatry Residency Resource",
-      description:
-        "Podiatry Residency Resource (PRR) is a residency-management system for the podiatric community that allows residents, program directors, and staff to track training progress, maintain compliance, and manage case logs in a centralized platform.",
-      image: "/podiatry-residency-resource.png",
-      technologies: ["React", "Next.js", "Tailwind CSS", "TypeScript", "Rest API", "PWA", "Responsive Web Design"],
-      hasLinks: false,
-    },
-    {
       title: "My Old Portfolio Website",
       description:
         'A simple and responsive 3-page portfolio (Home, Projects, Contact) built with HTML, CSS, and JavaScript. Includes smooth UI, clean layout, and Web3Forms integration for handling contact form submissions.',
