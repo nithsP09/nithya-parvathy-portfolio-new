@@ -6,6 +6,29 @@ import { ExternalLink } from "lucide-react"
 export function ProjectsSection() {
   const projects = [
     {
+      title: "ElitE Cartons and Packaging – Premium Packaging Website",
+      description:
+        "A modern and responsive corporate website built for a premium packaging manufacturer and exporter. Showcases their services, product categories, trusted partners, and brand story with smooth animations and an elegant UI. Designed to highlight quality, eco-friendly values, and industry credibility.",
+      image: "/elite_cartons.png",
+      technologies: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "SEO Optimization",
+        "Lighthouse Audit",
+        "v0 app - Vercel",
+        "Responsive Web Design",
+        "Jest",
+        "React Testing Library",
+        "Cross-Browser Testing",
+        "Cypress"
+      ],
+      liveUrl: "https://elite-cartons.vercel.app/",
+      hasLinks: true,
+    },
+    {
       title: "Modern Portfolio Website",
       description:
         'A multi-page portfolio showcasing 5 pages: Home, About Me, Resume, Projects, and Contact. Includes a tooltip that shows a welcoming message on hover: "Bonjour is how you say "Hello" 👋 in French".',
@@ -69,29 +92,6 @@ export function ProjectsSection() {
       liveUrl: "https://nithsp09.github.io/My-Personal-Portfolio/",
       hasLinks: true,
     },
-    {
-      title: "ElitE Cartons – Premium Packaging Website",
-      description:
-        "A modern and responsive corporate website built for a premium packaging manufacturer and exporter. Showcases their services, product categories, trusted partners, and brand story with smooth animations and an elegant UI. Designed to highlight quality, eco-friendly values, and industry credibility.",
-      image: "/elite_cartons.png",
-      technologies: [
-        "Next.js",
-        "React",
-        "TypeScript",
-        "Tailwind CSS",
-        "shadcn/ui",
-        "SEO Optimization",
-        "Lighthouse Audit",
-        "v0 app - Vercel",
-        "Responsive Web Design",
-        "Jest",
-        "React Testing Library",
-        "Cross-Browser Testing",
-        "Cypress"
-      ],
-      liveUrl: "https://elite-cartons.vercel.app/",
-      hasLinks: true,
-    }
   ]
 
   return (
