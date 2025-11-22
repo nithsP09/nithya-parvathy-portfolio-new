@@ -25,3 +25,5 @@ This portfolio is carefully optimized for:
 2. Laptops / Desktops
 
 Every section scales smoothly with correct spacing and readability.
+
+Portfolio Link : https://nithyaparvathyportfolio.vercel.app/
