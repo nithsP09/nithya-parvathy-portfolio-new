@@ -33,7 +33,7 @@ export function ProjectsSection() {
       description:
         'A multi-page portfolio showcasing 5 pages: Home, About Me, Resume, Projects, and Contact. Includes a tooltip that shows a welcoming message on hover: "Bonjour is how you say "Hello" 👋 in French".',
       image: "/nithulakshmi_softwaretester.png",
-      technologies: ["HTML", "CSS", "Web3Forms API", "Jest", "React Testing Library", "Responsive Web Design", "Cross-Browser Testing"],
+      technologies: ["HTML", "CSS", "Web3Forms API", "Responsive Web Design", "Cross-Browser Testing"],
       liveUrl: "https://nithulakshmisoftwaretester.on.drv.tw/www.NithuPortfolio.com/",
       hasLinks: true,
     },
