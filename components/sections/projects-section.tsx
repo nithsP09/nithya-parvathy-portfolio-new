@@ -25,7 +25,7 @@ export function ProjectsSection() {
         "Cross-Browser Testing",
         "Cypress"
       ],
-      liveUrl: "https://elite-cartons.vercel.app/",
+      liveUrl: "https://elitecartons.com/",
       hasLinks: true,
     },
     {
